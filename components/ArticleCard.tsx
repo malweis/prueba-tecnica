@@ -6,6 +6,7 @@ import { Article } from '@/constants/types';
 import { router } from 'expo-router';
 import { styled } from 'nativewind';
 import { stripSymbols } from '@/constants/functions';
+import { Divider } from 'react-native-paper';
 
 const StyledView = styled(View);
 const StyledPressable = styled(Pressable);
@@ -20,7 +21,7 @@ const ArticleCard = ({ article }: { article: Article }) => {
         router.navigate(`/details/${strippedTitle}`);
     };
     return (
-        <StyledPressable key={article.url} className='w-full max-h-52 mb-4 rounded-xl p-4 flex-row shadow-lg gap-x-2' onPress={navigateToArticle} >
+        <StyledPressable key={article.url} className='w-full max-h-52 mb-4 rounded-xl p-4 flex-row shadow-xl border-b  gap-x-2' onPress={navigateToArticle} >
             
                 <StyledView  className='w-[130px] h-[100%] p-2 rounded-lg'>
                     <StyledImage source={{ uri: article.urlToImage }} className='w-full h-full rounded-lg' />
@@ -31,8 +32,9 @@ const ArticleCard = ({ article }: { article: Article }) => {
                     <StyledText >{getFormattedAuthorName(article.author)}</StyledText>
                     <StyledText >{timeAgo(article.publishedAt)}</StyledText>
                     </StyledView>
+                   
                 </StyledView>
-           
+                <Divider/>
         </StyledPressable>
     );
 };

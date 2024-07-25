@@ -11,6 +11,7 @@ import { useLocalSearchParams } from 'expo-router';
 import { styled } from 'nativewind';
 import { Divider } from 'react-native-paper';
 import { stripSymbols } from '@/constants/functions';
+import { ExternalLink } from '@/components/ExternalLink';
 
 
 const StyledText = styled(Text);
@@ -41,6 +42,7 @@ export default function NewsDetailsScreen() {
         <StyledText className='dark:text-white'  >{article.content}</StyledText>
   
         <StyledText className='dark:text-white'>{formatReadableDate(article.publishedAt)}</StyledText>
+        <ExternalLink href={article.url}>Fuente : <StyledText className='text-blue-500 underline-blue-500 underline'>{article.source.name}</StyledText></ExternalLink>
         
     </ParallaxScrollView>
   );
