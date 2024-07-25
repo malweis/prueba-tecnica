@@ -17,3 +17,12 @@ export const timeAgo = (date: string) => {
     }
   };
 
+export const getFormattedAuthorName = (author : string) => {
+    if (!author) return '';
+
+    const [firstName, lastName] = author.split(' ');
+
+    if (!lastName) return firstName;
+
+    return `${firstName} ${lastName.charAt(0)}.`;
+};

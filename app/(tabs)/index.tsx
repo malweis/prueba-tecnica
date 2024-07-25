@@ -5,6 +5,7 @@ import { ActivityIndicator, Card, Button, Text } from 'react-native-paper';
 import fetchTopHeadlines from '@/apis/news';
 import { Article } from '@/constants/types';
 import { timeAgo } from '@/constants/functions';
+import ArticleCard from '@/components/ArticleCard';
 
 export default function HomeScreen() {
   const { data, isLoading } = useQuery({ queryKey: ['top-headlines'], queryFn: fetchTopHeadlines });
@@ -17,22 +18,9 @@ export default function HomeScreen() {
         ) : (
           data?.articles?.map((article: Article) => (
             article.urlToImage && 
-            <Card key={article.url} style={styles.card}>
-              <Card.Content style={styles.cardContent}>
-                <Image source={{ uri: article.urlToImage }} style={styles.image} />
-                <View style={styles.textContainer}>
-                  <Text style={styles.title}>{article.title}</Text>
-                  <View style={styles.authorDateContainer}>
-                    <Text style={styles.author}>{article.author}</Text>
-                    <Text style={styles.date}>{timeAgo(article.publishedAt)}</Text>
-                  </View>
-               
-                </View>
-                
-              </Card.Content>
-              
-            </Card>
+            <ArticleCard article={article}  key={article.url} />
           ))
+          
         )}
       </ScrollView>
     </SafeAreaView>
@@ -44,7 +32,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollContainer: {
-    flex: 1,
+    
     backgroundColor: '#fff',
     padding: 20,
     display: 'flex',
