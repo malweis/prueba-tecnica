@@ -5,6 +5,7 @@ import { getFormattedAuthorName, timeAgo } from '@/constants/functions';
 import { Article } from '@/constants/types';
 import { router } from 'expo-router';
 import { styled } from 'nativewind';
+import { stripSymbols } from '@/constants/functions';
 
 const StyledView = styled(View);
 const StyledPressable = styled(Pressable);
@@ -15,8 +16,8 @@ const StyledImage = styled(Image);
 
 const ArticleCard = ({ article }: { article: Article }) => {
     const navigateToArticle = () => {
-        console.log(article.title);
-        router.navigate(`/details/${article.title}`);
+        const strippedTitle = stripSymbols(article.title);
+        router.navigate(`/details/${strippedTitle}`);
     };
     return (
         <StyledPressable key={article.url} className='w-full max-h-52 mb-4 rounded-xl p-4 flex-row shadow-lg gap-x-2' onPress={navigateToArticle} >

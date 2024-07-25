@@ -26,3 +26,18 @@ export const getFormattedAuthorName = (author : string) => {
 
     return `${firstName} ${lastName.charAt(0)}.`;
 };
+
+// src/constants/functions/dateUtils.ts
+export const formatReadableDate = (isoString: string): string => {
+  const date = new Date(isoString);
+  return date.toLocaleDateString(undefined, {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+
+// src/constants/functions/stringUtils.ts
+export const stripSymbols = (text: string): string => {
+  return text.replace(/[^\w\s]/gi, ''); // Remove all non-alphanumeric characters except spaces
+};

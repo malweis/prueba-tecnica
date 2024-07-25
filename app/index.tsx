@@ -1,33 +1,49 @@
-import React from 'react';
-import { ScrollView, StyleSheet,StatusBar, Platform } from 'react-native';
+import React, { useEffect } from 'react';
+import { ScrollView, StyleSheet,StatusBar, Platform, Text } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
 import { ActivityIndicator } from 'react-native-paper';
 import fetchTopHeadlines from '@/apis/news';
 import { Article } from '@/constants/types';
+import { useDispatch } from 'react-redux';
 import ArticleCard from '@/components/ArticleCard';
 import { styled } from 'nativewind';
+import { setArticles } from '@/store/articlesSlice';
 
 const StyledScrollView = styled(ScrollView);
+const StyledText = styled(Text);
 
 export default function HomeScreen() {
-  const { data, isLoading } = useQuery({ queryKey: ['top-headlines'], queryFn: fetchTopHeadlines });
+  const dispatch = useDispatch();
+  const { data, isLoading, isSuccess } = useQuery({ queryKey: ['top-headlines'], queryFn: fetchTopHeadlines});
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(setArticles(data?.articles));
+    }
+  }, [isSuccess, data]);
 
   return (
-      <StyledScrollView className='bg-white p-4 ' >
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          data?.articles?.map((article: Article) => (
-            article.urlToImage && 
-            <ArticleCard article={article}  key={article.url} />
-          ))
-          
-        )}
-      </StyledScrollView>
- 
+    <StyledScrollView className='bg-white p-4'>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : (
+        <>
+          {data?.articles?.some((article: Article) => article.urlToImage) ? (
+            data.articles.map(
+              (article: Article) =>
+                article.urlToImage && (
+                  <ArticleCard article={article} key={article.url} />
+                )
+            )
+          ) : (
+            <StyledText>No articles with images found</StyledText>
+          )}
+        </>
+      )}
+    </StyledScrollView>
   );
-}
 
+}
 const styles = StyleSheet.create({
   AndroidSafeArea: {
     flex: 1,

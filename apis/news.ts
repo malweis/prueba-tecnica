@@ -4,7 +4,7 @@ const fetchTopHeadlines = async () => {
     try {
         const params = {
             country: 'us',           // Country code for Paraguay
-            pageSize: 50,            // Limit the result to 50 headlines
+            pageSize: 100,            // Limit the result to 50 headlines
         };
 
         console.log('API Key:', process.env.EXPO_PUBLIC_NEWS_API_KEY);

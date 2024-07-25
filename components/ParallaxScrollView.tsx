@@ -1,5 +1,5 @@
 import type { PropsWithChildren, ReactElement } from 'react';
-import { StyleSheet, useColorScheme } from 'react-native';
+import { Platform, StatusBar, StyleSheet, useColorScheme } from 'react-native';
 import Animated, {
   interpolate,
   useAnimatedRef,
@@ -8,6 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { ThemedView } from '@/components/ThemedView';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HEADER_HEIGHT = 250;
 
@@ -43,6 +44,7 @@ export default function ParallaxScrollView({
   });
 
   return (
+    <SafeAreaView style={styles.container}>
     <ThemedView style={styles.container}>
       <Animated.ScrollView ref={scrollRef} scrollEventThrottle={16}>
         <Animated.View
@@ -56,6 +58,7 @@ export default function ParallaxScrollView({
         <ThemedView style={styles.content}>{children}</ThemedView>
       </Animated.ScrollView>
     </ThemedView>
+    </SafeAreaView>
   );
 }
 
