@@ -1,18 +1,19 @@
 import React from 'react';
-import { SafeAreaView, ScrollView, StyleSheet, Image, View } from 'react-native';
+import { ScrollView, StyleSheet,StatusBar, Platform } from 'react-native';
 import { useQuery } from '@tanstack/react-query';
-import { ActivityIndicator, Card, Button, Text } from 'react-native-paper';
+import { ActivityIndicator } from 'react-native-paper';
 import fetchTopHeadlines from '@/apis/news';
 import { Article } from '@/constants/types';
-import { timeAgo } from '@/constants/functions';
 import ArticleCard from '@/components/ArticleCard';
+import { styled } from 'nativewind';
+
+const StyledScrollView = styled(ScrollView);
 
 export default function HomeScreen() {
   const { data, isLoading } = useQuery({ queryKey: ['top-headlines'], queryFn: fetchTopHeadlines });
 
   return (
-    <SafeAreaView style={styles.container}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>
+      <StyledScrollView className='bg-white p-4 ' >
         {isLoading ? (
           <ActivityIndicator />
         ) : (
@@ -22,24 +23,16 @@ export default function HomeScreen() {
           ))
           
         )}
-      </ScrollView>
-    </SafeAreaView>
+      </StyledScrollView>
+ 
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  AndroidSafeArea: {
     flex: 1,
-  },
-  scrollContainer: {
-    
-    backgroundColor: '#fff',
-    padding: 20,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "white",
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
   },
   card: {
     width: '100%',

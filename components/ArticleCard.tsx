@@ -1,71 +1,43 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
-import { Card } from 'react-native-paper';
+import { View, Text, Image, StyleSheet, Pressable } from 'react-native';
+
 import { getFormattedAuthorName, timeAgo } from '@/constants/functions'; 
 import { Article } from '@/constants/types';
+import { router } from 'expo-router';
+import { styled } from 'nativewind';
+
+const StyledView = styled(View);
+const StyledPressable = styled(Pressable);
+const StyledText = styled(Text);
+const StyledImage = styled(Image);
+
 
 
 const ArticleCard = ({ article }: { article: Article }) => {
+    const navigateToArticle = () => {
+        console.log(article.title);
+        router.navigate(`/details/${article.title}`);
+    };
     return (
-        <View key={article.url} style={styles.cardContent}>
+        <StyledPressable key={article.url} className='w-full max-h-52 mb-4 rounded-xl p-4 flex-row shadow-lg gap-x-2' onPress={navigateToArticle} >
             
-                <Image source={{ uri: article.urlToImage }} style={styles.image} />
-                <View style={styles.textContainer}>
-                    <Text style={styles.title}>{article.title}</Text>
-                    <View style={styles.authorDateContainer}>
-                    <Text style={styles.author}>{getFormattedAuthorName(article.author)}</Text>
-                    <Text style={styles.date}>{timeAgo(article.publishedAt)}</Text>
-                    </View>
-                </View>
+                <StyledView  className='w-[130px] h-[100%] p-2 rounded-lg'>
+                    <StyledImage source={{ uri: article.urlToImage }} className='w-full h-full rounded-lg' />
+                </StyledView>
+                <StyledView className='flex-1 flex-col justify-center ' >
+                    <StyledText className='font-bold text-base mb-4' >{article.title}</StyledText>
+                    <StyledView className='flex-row justify-between' >
+                    <StyledText >{getFormattedAuthorName(article.author)}</StyledText>
+                    <StyledText >{timeAgo(article.publishedAt)}</StyledText>
+                    </StyledView>
+                </StyledView>
            
-        </View>
+        </StyledPressable>
     );
 };
 
 const styles = StyleSheet.create({
-    cardContent: {
-
-        width : '100%',
-        flexDirection: 'row',
-        gap: 10,
-        height: 140,
-        padding: 10,
-        backgroundColor: '#faf1e5',
-        shadowColor: 'black',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 3,
-        elevation: 10,
-      
-    },
-    image: {
-        width: 130,
-        height: '100%',
-        borderRadius: 5,
-    },
-    textContainer: {
-        flex: 1,
-        flexDirection: 'column',
-        gap: 20,    
-        paddingRight: 10,
-    },
-    title: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        marginBottom: 5,
-    },
-    authorDateContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    author: {
-        fontSize: 14,
-        color: 'gray',
-    },
-    date: {
-        fontSize: 12,
-        color: 'gray',
-    },
+ 
 });
 
 export default ArticleCard;
